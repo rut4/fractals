@@ -1,77 +1,34 @@
-function throwError(message) {
-    throw new Error(message);
-}
+function Graphics() {
+    var canvas, pixelData;
 
-function Canvas() {
-    var canvas, context, width, height, imageData;
+    this.init = function (canvas) {
+        return canvas = (canvas instanceof Canvas) && canvas || new Canvas;
+    }
 
     function getCanvas() {
-        if (!canvas) {
-            canvas = document.getElementById('canvas') 
-                || throwError('Canvas is not available');
-        }
-        return canvas;
+        return canvas || (canvas = this.init());
     }
 
-    function getContext() {
-        if (!context) {
-            context = getCanvas().getContext('2d');
-        }
-        return context;
-    }
-
-    function getWidth() {
-        if (!width) {
-            width = getCanvas().width;
-        }
-        return width;
-    }
-
-    function getHeight() {
-        if (!height) {
-            height = getCanvas().height;
-        }
-        return height;
-    }
-
-    function getImageData() {
-        if (!imageData) {
-            imageData = getContext().createImageData(getWidth(), getHeight());
-        }
-        return imageData;
-    }
-
-    function setImageData(imageData, x, y) {
-        getContext().putImageData(imageData, x, y);
-    }
-
-    function getPixelData() {
-        return getImageData().data;
-    }
-
-    function setPixelData(pixelData, x, y) {
-        var imageData = getImageData();
-        imageData.data = pixelData;
-        setImageData(imageData, x, y);
+    this.startDraw = function () {
+        pixelData = getCanvas.call(this).getPixelData();
     }
 
     this.setPixel = function (x, y, r, g, b, a) {
+        if (x < 0 || x > canvas.getWidth()
+            || y < 0 || y > canvas.getHeight()) {
+            throwError('Invalid coordinats');
+        }
         a = a || 255;
+
         var data = [r, g, b, a]
-        ,   pixelData = getPixelData()
-        ,   index = (x + y * getWidth()) * 4;
+        ,   index = (x + y * getCanvas.call(this).getWidth()) * 4;
 
         for (var i = 0; i < 4; i++) {
             pixelData[index + i] = data[i];
         }
+    }
 
-        setPixelData(pixelData, 0, 0);
+    this.endDraw = function () {
+        getCanvas.call(this).setPixelData(pixelData, 0, 0);
     }
 }
-
-var canvas = new Canvas;
-
-for (var i = 0; i < 100; i++) {
-    canvas.setPixel(i, i, 255, 0, 0);
-}
-

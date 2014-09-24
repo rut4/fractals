@@ -27,8 +27,8 @@ function start() {
                 zi = newzi;
                 if(((z * z) + (zi * zi)) > 4) {
                     inset = false;
-                    color = k;
-                    k = iter;
+                    color = k * 10;
+                    break;
                 }
             }
             if (inset) {

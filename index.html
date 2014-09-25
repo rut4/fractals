@@ -3,12 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Fractals</title>
+    <link rel="stylesheet" href="css/plugin/normalize.css">
+    <link rel="stylesheet" href="css/plugin/bootstrap.min.css">
+    <link rel="stylesheet" href="css/plugin/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <canvas id="canvas" class="canvas" width="1000" height="1000"></canvas>
+    <div id="nanobar" class="nanobar"></div>
+    <canvas id="canvas" class="canvas" width="2000" height="2000" hidden></canvas>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h1 class="text-center title">Fractals</h1>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <select class="form-control" name="fractal-select" id="fractalSelect">
+                                <option value="0">Mandelbrot Set</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="draw">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3>Preferences</h3>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-2" for="size">Size</label>
+                            <input class="col-sm-10 form-control" type="text" name="size" id="size" value="2000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="container-fluid">
+                    <img class="img-responsive" id="preview" src="" width="500" height="500">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script src="js/plugin/nanobar.min.js"></script>
+    <script src="js/plugin/jquery-2.1.1.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/canvas.js"></script>
     <script src="js/graphics.js"></script>
+    <script src="js/processor.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

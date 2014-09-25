@@ -1,16 +1,16 @@
 function Graphics() {
-    var canvas, pixelData;
+    var canvas, pixelData, that = this;
 
     this.init = function (canvas) {
         return canvas = (canvas instanceof Canvas) && canvas || new Canvas;
     }
 
     function getCanvas() {
-        return canvas || (canvas = this.init());
+        return canvas || (canvas = that.init());
     }
 
     this.startDraw = function () {
-        pixelData = getCanvas.call(this).getPixelData();
+        pixelData = getCanvas.call(that).getPixelData();
     }
 
     this.setPixel = function (x, y, r, g, b, a) {
@@ -21,7 +21,7 @@ function Graphics() {
         a = a || 255;
 
         var data = [r, g, b, a]
-        ,   index = (x + y * getCanvas.call(this).getWidth()) * 4;
+        ,   index = (x + y * getCanvas.call(that).getWidth()) * 4;
 
         for (var i = 0; i < 4; i++) {
             pixelData[index + i] = data[i];
@@ -29,6 +29,14 @@ function Graphics() {
     }
 
     this.endDraw = function () {
-        getCanvas.call(this).setPixelData(pixelData, 0, 0);
+        getCanvas.call(that).setPixelData(pixelData, 0, 0);
+    }
+
+    this.getPixelData = function () {
+        return pixelData;
+    }
+
+    this.setPixelData = function (data) {
+       pixelData = data;
     }
 }

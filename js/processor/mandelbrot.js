@@ -1,13 +1,12 @@
 var pixelData = []
 ,   width, height;
 
-function process() {
+function process(iterations) {
     var dx = 2.6 / width;
     var dy = 2.4 / height;
 
     var x = -2.05
     ,   y = -1.2
-    ,   iter = 300
     ,   color;
 
     for (var i = 0; i < height; i++) {
@@ -16,7 +15,7 @@ function process() {
             ,   imaginary = 0
             ,   inset = true;
 
-            for (var k = 0; k < iter; k++) {
+            for (var k = 0; k < iterations; k++) {
                 var newReal = (real * real) - (imaginary * imaginary) + x
                 ,   newImaginary = 2 * real * imaginary + y;
 
@@ -31,14 +30,14 @@ function process() {
             if (inset) {
                 addToPixelData(j, i, 0, 0, 0);
             } else {
-                color = color / iter * 255 | 0;
+                color = color / iterations * 255 | 0;
                 addToPixelData(j, i, color, color / 2, color / 2);
             }
             x += dx;
         }
         y += dy;
         x = -2.05;
-        postMessage({process: (y + 1.2) / 2.4});
+        postMessage({process: (y + 1.2) / 2.4, iter: iterations});
     }
     postMessage({pixelData: pixelData});
 }
@@ -58,5 +57,5 @@ onmessage = function (ev) {
     pixelData = ev.data.pixelData;
     width = ev.data.width;
     height = ev.data.height;
-    process();
+    process(ev.data.iterations);
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="fractalApp">
 <head>
     <meta charset="UTF-8">
     <title>Fractals</title>
@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="css/plugin/bootstrap.min.css">
     <link rel="stylesheet" href="css/plugin/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/plugin/jquery-2.1.1.min.js"></script>
+    <script src="js/plugin/nanobar.min.js"></script>
+    <script src="js/plugin/angular.min.js"></script>
+    <script src="js/app.js"></script>
 </head>
 <body>
     <div id="nanobar" class="nanobar"></div>
@@ -18,37 +22,41 @@
                     <div class="row">
                         <h1 class="text-center title">Fractals</h1>
                     </div>
-                    <div class="row">
-                        <div class="input-group">
-                            <select class="form-control" name="fractal-select" id="fractalSelect">
-                                <option value="0">Mandelbrot Set</option>
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="draw">
-                                    <i class="glyphicon glyphicon-pencil"></i>
-                                </button>
-                            </span>
+                    <div ng-controller="FractalController">
+                        <div class="row">
+                            <div class="input-group">
+                                <select class="form-control" name="fractal-select" id="fractalSelect" 
+                                        ng-model="fractal" ng-options="f.name for f in fractals">
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="draw">
+                                        <i class="glyphicon glyphicon-play"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <h3 class="text-center">Preferences</h3>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="width">Width</label>
-                            <input class="form-control" type="text" name="width" id="width" value="2000">
+                        <div class="row">
+                            <h3 class="text-center">Preferences</h3>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="height">Height</label>
-                            <input class="form-control" type="text" name="height" id="height" value="2000">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="iterations">Maximum number of iterations</label>
-                            <input class="form-control" type="text" name="iterations" id="iterations" value="100">
+                        <div ng-show="fractal.value == 0">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="width">Width</label>
+                                    <input class="form-control" type="text" name="width" id="width" value="2000">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="height">Height</label>
+                                    <input class="form-control" type="text" name="height" id="height" value="2000">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="iterations">Maximum number of iterations</label>
+                                    <input class="form-control" type="text" name="iterations" id="iterations" value="100">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,10 +75,7 @@
                 </div>
             </div>
         </div>
-        
     </div>
-    <script src="js/plugin/nanobar.min.js"></script>
-    <script src="js/plugin/jquery-2.1.1.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/canvas.js"></script>
     <script src="js/graphics.js"></script>

@@ -37,7 +37,7 @@ function process(iterations) {
         }
         y += dy;
         x = -2.05;
-        postMessage({process: (y + 1.2) / 2.4, iter: iterations});
+        postMessage({process: (y + 1.2) / 2.4});
     }
     postMessage({pixelData: pixelData});
 }

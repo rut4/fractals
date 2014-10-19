@@ -4,8 +4,10 @@ var pixelData = []
 function process(c, iterations, xMin, yMin, xMax, yMax) {
     var r = calculateR(c);
     if (!(xMin && yMin && xMax && yMax)) {
-        xMin = yMin = -r;
-        xMax = yMax = r;
+        xMin = -r;
+        yMin = -r;
+        xMax = r;
+        yMax = r;
     }
     xStep = Math.abs(xMax - xMin) / width;
     yStep = Math.abs(yMax - yMin) / height;
@@ -21,7 +23,7 @@ function process(c, iterations, xMin, yMin, xMax, yMax) {
                 real: x,
                 imaginary: y
             }
-            ,   zIter = sqPolyIterations(z, c, maxIter, r);
+            ,   zIter = sqPolyIterations(z, c, iterations, r);
 
             var idx = zIter.length - 1;
             if (maxIdx < idx) {
@@ -29,6 +31,7 @@ function process(c, iterations, xMin, yMin, xMax, yMax) {
             }
             xyIdx[i][j] = idx;
         }
+        postMessage({process: (i + 1) / width});
     }
     for (var i = 0; i < width; i++) {
         for (var j = 0; j < height; j++) {
@@ -43,6 +46,9 @@ function process(c, iterations, xMin, yMin, xMax, yMax) {
             addToPixelData(width - i - 1, j, complexHeatMap(idx, 0, maxIdx, z, r));
         }
     }
+    postMessage({
+        pixelData: pixelData
+    });
 }
 
 function sqPolyIterations(z0, c, n, r) {
@@ -55,8 +61,8 @@ function sqPolyIterations(z0, c, n, r) {
             break;
         }
         res.push({
-            real: Math.pow(last.real) - Math.pow(last.imaginary) + c.real,
-            imaginary: 2 * last.real * last.imaginary + c.imaginary
+            real: Math.pow(last.real, 2) - Math.pow(last.imaginary, 2) + parseFloat(c.real),
+            imaginary: 2 * last.real * last.imaginary + parseFloat(c.imaginary)
         });
     }
     return res;
@@ -72,7 +78,8 @@ function complexHeatMap(value, min, max, z, r) {
     return [
         255 * val,
         255 * (1 - val),
-        255 * (complexMod(z) / r > 1 ? 1 : complexMod(z) / r)
+        255 * (complexMod(z) / r > 1 ? 1 : complexMod(z) / r),
+        255
     ];
 }
 
@@ -85,7 +92,7 @@ function addToPixelData(x, y, data) {
     var index = (x + y * width) * 4;
 
     for (var i = 0; i < 4; i++) {
-        pixelData[index + i] = data[i] || 255;
+        pixelData[index + i] = data[i];
     }
 }
 
@@ -93,6 +100,13 @@ onmessage = function (event) {
     pixelData = event.data.pixelData;
     width = event.data.width;
     height = event.data.height;
-    process(event.data.iterations);
+    process(
+        event.data.c,
+        event.data.iterations,
+        event.data.xMin,
+        event.data.yMin,
+        event.data.xMax,
+        event.data.yMax
+    );
 };
 

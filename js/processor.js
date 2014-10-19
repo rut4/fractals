@@ -32,7 +32,9 @@ function Processor(progressbar) {
         var worker = new Worker('js/processor/julia.js');
 
         worker.onmessage = function (event) {
-            if (process = event.data.process) {
+            if (dump = event.data.dump) {
+                console.log(dump);
+            } else if (process = event.data.process) {
                 progressbar.go(process * 100);
             } else {
                 progressbar.go(100);
@@ -45,12 +47,8 @@ function Processor(progressbar) {
             }
         };
 
-        worker.postMessage({
-            pixelData: canvas.getPixelData(),
-            height: canvas.getHeight(),
-            width: canvas.getWidth(),
-            iterations: options.iterations,
-            c: options.c
-        });
+        options.pixelData = canvas.getPixelData();
+
+        worker.postMessage(options);
     }
 }

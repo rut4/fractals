@@ -76,9 +76,9 @@ function complexHeatMap(value, min, max, z, r) {
     var val = (value - min) / (max - min);
 
     return [
-        255 * val,
         255 * (1 - val),
-        255 * (complexMod(z) / r > 1 ? 1 : complexMod(z) / r),
+        255 * (1 - val) / 2,
+        255 * (1 - val) / 3,
         255
     ];
 }
@@ -102,11 +102,11 @@ onmessage = function (event) {
     height = event.data.height;
     process(
         event.data.c,
-        event.data.iterations,
-        event.data.xMin,
-        event.data.yMin,
-        event.data.xMax,
-        event.data.yMax
+        +event.data.iterations,
+        +event.data.xMin,
+        +event.data.yMin,
+        +event.data.xMax,
+        +event.data.yMax
     );
 };
 

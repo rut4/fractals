@@ -10,6 +10,7 @@
     <script src="js/plugin/jquery-2.1.1.min.js"></script>
     <script src="js/plugin/jquery.serialize-object.js"></script>
     <script src="js/plugin/nanobar.min.js"></script>
+    <script src="js/plugin/yaml.js"></script>
     <script src="js/plugin/angular.min.js"></script>
     <script src="js/app.js"></script>
 </head>
@@ -31,74 +32,24 @@
                                 </select>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" id="draw"
-                                            ng-click="drawFractal(fractal.value);">
+                                            ng-click="drawFractal();">
                                         <i class="glyphicon glyphicon-play"></i>
                                     </button>
                                 </span>
                             </div>
                         </div>
                         <div class="row">
-                            <span ng-bind-html="renderHtml(fractal.formula);"></span>
-                        </div>
-                        <div class="row">
                             <h3 class="text-center">Preferences</h3>
                         </div>
-                        <form action="#" ng-show="fractal.value == 0" id="preferences0">
+                        <form action="#" ng-repeat="f in fractals"
+                              ng-show="isPreferencesVisible({{f.number}});" id="preferences{{f.number}}"
+                              name="preferences{{f.number}}">
                             <div class="row">
-                                <div class="form-group">
-                                    <label for="width">Width</label>
-                                    <input class="form-control" type="text" name="width" id="width" value="2000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="height">Height</label>
-                                    <input class="form-control" type="text" name="height" id="height" value="2000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="iterations">Maximum number of iterations</label>
-                                    <input class="form-control" type="text" name="iterations" id="iterations" value="100">
-                                </div>
-                            </div>
-                        </form>
-                        <form action="#" ng-show="fractal.value == 1" id="preferences1">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="width">Width</label>
-                                    <input class="form-control" type="text" name="width" id="width" value="2000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="height">Height</label>
-                                    <input class="form-control" type="text" name="height" id="height" 
-                                           value="2000">
-                                </div>
-                                <div class="form-group">
-                                    <label for="iterations">Maximum number of iterations</label>
-                                    <input class="form-control" type="text" name="iterations" id="iterations" value="100">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cReal">Real part of c</label>
-                                    <input class="form-control" type="text" name="c[real]" id="cReal"
-                                           value="0.5">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cImaginary">Imaginary part of c</label>
-                                    <input class="form-control" type="text" name="c[imaginary]" id="cImaginary"
-                                           value="0.5">
-                                </div>
-                                <div class="form-group">
-                                    <label for="xMin">Minimal x</label>
-                                    <input class="form-control" type="text" name="xMin" id="xMin">
-                                </div>
-                                <div class="form-group">
-                                    <label for="xMax">Maximal x</label>
-                                    <input class="form-control" type="text" name="xMax" id="xMax">
-                                </div>
-                                <div class="form-group">
-                                    <label for="yMin">Minimal y</label>
-                                    <input class="form-control" type="text" name="yMin" id="yMin">
-                                </div>
-                                <div class="form-group">
-                                    <label for="yMax">Maximal y</label>
-                                    <input class="form-control" type="text" name="yMax" id="yMax">
+                                <div class="form-group" ng-repeat="pref in f.preferences">
+                                    <label for="{{pref.name}}">{{pref.label}}</label>
+                                    <input class="form-control" type="text" name="{{pref.name}}"
+                                           id="{{pref.name}}" value="{{pref.value}}"
+                                           ng-required="isRequired(pref);">
                                 </div>
                             </div>
                         </form>

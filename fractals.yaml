@@ -1,0 +1,100 @@
+fractals:
+  - name: Mandelbrot Set
+    number: 0
+    processor: mandelbrot
+    preferences:
+      - name: width
+        label: Width
+        value: 2000
+      - name: height
+        label: Height
+        value: 2000
+      - name: iterations
+        label: Maximum number of iterations
+        value: 100
+      - name: xMin
+        label: Minimal x
+        value: -2
+      - name: xMax
+        label: Maximal x
+        value: 2
+      - name: yMin
+        label: Minimal y
+        value: -2
+      - name: yMax
+        label: Maximal y
+        value: 2
+  - name: Julia Set
+    number: 1
+    processor: julia
+    preferences:
+      - name: width
+        label: Width
+        value: 2000
+      - name: height
+        label: Height
+        value: 2000
+      - name: iterations
+        label: Maximum number of iterations
+        value: 300
+      - name: 'c[real]'
+        label: Real part of c
+        value: -0.8
+      - name: 'c[imaginary]'
+        label: Imaginary part of c
+        value: 0.156
+      - name: xMin
+        label: Minimal x
+        value: -1
+        required: false
+      - name: xMax
+        label: Maximal x
+        value: 1
+        required: false
+      - name: yMin
+        label: Minimal y
+        value: -1
+        required: false
+      - name: yMax
+        label: Maximal y
+        value: 1
+        required: false
+  - name: Newton fractal
+    number: 2
+    processor: newton
+    preferences:
+      - name: width
+        label: Width
+        value: 1000
+      - name: height
+        label: Height
+        value: 1000
+      - name: iterations
+        label: Maximum number of iterations
+        value: 100
+  - name: Sierpinski carpet
+    number: 3
+    processor: sierpinski
+    preferences:
+      - name: width
+        label: Width
+        value: 1000
+      - name: height
+        label: Height
+        value: 1000
+      - name: order
+        label: Order
+        value: 5
+  - name: Dragon curve
+    number: 4
+    processor: dragon
+    preferences:
+      - name: width
+        label: Width
+        value: 1000
+      - name: height
+        label: Height
+        value: 1000
+      - name: order
+        label: Order
+        value: 20
